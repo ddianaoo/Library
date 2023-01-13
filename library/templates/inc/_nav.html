@@ -1,0 +1,37 @@
+<nav class="navbar navbar-expand-lg bg-light">
+    <a class="navbar-brand" href="{%  url 'home' %}">Library</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+            <li class="nav-item"><a class="nav-link" href="{%  url 'home' %}">Головна</a></li>
+            <li class="nav-item"><a class="nav-link" href="{%  url 'base' %}">Книги</a></li>
+            {% if request.user.is_authenticated %}
+            <li class="nav-item"><a class="nav-link" href="{%  url 'orders' %}">Замовлення</a></li>
+            {% if request.user.role == 1 %}
+            <li class="nav-item"><a class="nav-link" href="{%  url 'list_users' %}">Користувачі</a></li>
+            <li class="nav-item"><a class="nav-link" href="{%  url 'authors' %}">Автори</a></li>
+            {% endif %}
+            {% endif %}
+
+        </ul>
+
+
+        {% if request.user.is_authenticated %}
+        <span class="navbar-text" style="color:black;">
+            Ласкаво просимо, {{ request.user.email }} !
+            <a href="{% url 'edit' %}" style="color:white; background-color: black; border: black;" class="btn btn-primary">Змінити</a>
+            <a href="{% url 'signout' %}" style="color:white; background-color: black; border: black;" class="btn btn-primary">Вихід</a>
+            </span>
+        {% else %}
+        <span class="navbar-text">
+            <a href="{% url 'signin' %}" style="color:white; background-color: black; border: black;" class="btn btn-primary">Вхід</a>
+            <a href="{% url 'create' %}" style="color:white; background-color: black; border: black;" class="btn btn-primary">Реєстрація</a>
+            </span>
+        {% endif %}
+
+    </div>
+</nav>

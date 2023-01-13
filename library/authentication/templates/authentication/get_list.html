@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ title }}{% endblock %}
+
+{% block content %}
+
+<h2>Список усіх користувачів({{ users_lenght }})</h2>
+
+{% for user in users %}
+<div class="card" style="width: 25rem;">
+    <div class="card-body">
+        <h4 class="card-title"><a href="{{ user.get_absolute_url }}">{{ user.email }}</a></h4>
+        <h5 class="card-subtitle mb-2 text-muted">
+            {% if user.role == 0 %}
+            відвідувач
+            {% else %}
+            бібліотекар
+            {% endif %}
+        </h5>
+        <h6 class="card-title">Аккаунт створений: {{ user.created_at|date:"Y-m-d H:i" }}</h6>
+
+    </div>
+</div>
+<br>
+{% endfor %}
+
+{% endblock %}

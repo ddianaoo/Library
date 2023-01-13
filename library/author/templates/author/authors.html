@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ title }}{% endblock %}
+
+{% block content %}
+<br>
+<a href="{% url 'create_author' %}" style="color:white; background-color: black; border: black;"
+      class="btn btn-primary">Створити автора</a>
+<br>
+<h2>Автори: </h2>
+
+{% for author in authors %}
+{% with books=author.books.all %}
+
+<div class="card" style="width: 25rem;">
+    <div class="card-body">
+
+        <h4 class="card-title">{{ author.name }} {{ author.surname }}</h4>
+
+        {% if books %}
+        <p>Книги: </p>
+        <ul>
+            {% for book in books %}
+            <li><a href="{{ book.get_absolute_url }}" style="color:black;">{{book.name}}</a></li>
+            {% endfor %}
+        </ul>
+        {% else %}
+        <p>У цього автора немає жодної книги</p>
+        <a href="{% url 'remove_author' author.pk %} "
+           style="color:white; background-color: black; border: black;" class="btn btn-primary">Видалити
+            автора</a>
+        {% endif %}
+        <a href="{% url 'edit_author' author.pk %} "
+           style="color:white; background-color: black; border: black;" class="btn btn-primary">Редагувати
+            автора</a>
+    </div>
+</div>
+<br>
+
+{% endwith %}
+{% endfor %}
+
+
+{% endblock %}

@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="card" style="width: 30rem;">
+    <div class="card-body">
+        <form action="{% url 'user_books' %}" method="post">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit" value="submit" style="color:white; background-color: black; border: black;"
+                    class="btn btn-primary">Обрати
+            </button>
+        </form>
+    </div>
+</div>
+<br>
+{% if orders and user %}
+<h4>Усі книги, замовлені користувачем:({{ length }})</h4>
+{% for order in orders %}
+<div class="card" style="width: 25rem;">
+    <div class="card-body">
+
+        <h4 class="card-title">Номер заказу: {{order.id}}</h4>
+        <h6 class="card-subtitle mb-2 text-muted">Замовник: <a href="{{ order.user.get_absolute_url }}">{{order.user.email}}</a>
+        </h6>
+        <p class="card-text">Книга: <a href="{{ order.book.get_absolute_url }}"
+                                       style="color:black;">{{order.book.name}}</a></p>
+        <p class="card-text">Зроблено: {{order.created_at|date:"Y-m-d H:i"}}</p>
+        <p class="card-text">Планований кінець: {{order.plated_end_at|date:"Y-m-d H:i"}}</p>
+        <p class="card-text">Стан: {% if order.end_at %} Закритий {% else %} Відкритий {% endif %}</p>
+
+    </div>
+</div>
+<br>
+
+{% endfor %}
+{% else %}
+<h4>Цей користувач не замовляв жодної книги</h4>
+
+{% endif %}
+
+{% endblock %}
+

@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<p><a href="{% url 'books' %}" style="color:white; background-color: black; border: black;" class="btn btn-primary">Фільтрувати книги</a></p>
+
+{% if user.is_staff or user.role == 1 %}
+<p><a href="{% url 'create_book' %}" style="color:white; background-color: black; border: black;" class="btn btn-primary">Створити книгу</a></p>
+{% endif %}
+
+{% for book in books %}
+<div class="card" style="width: 25rem;">
+    <div class="card-body">
+        <h4 class="card-title"><a href="{% url 'book' book.pk %}" style="color:black;">{{ book.name }}</a></h4>
+        <h5 class="card-subtitle mb-2 text-muted">Кількість - {{ book.count }}</h5>
+    </div>
+</div>
+<br>
+{% endfor %}
+
+{% endblock %}

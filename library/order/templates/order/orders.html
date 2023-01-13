@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+    {% if not orders %}
+        {% if user.role == 1 %}
+            <h3>Заказів поки що немає</h3>
+        {% elif user.role == 0 %}
+            <h3>Ви не зробили жодного заказу</h3>
+        {% endif %}
+    {% endif %}
+
+    {% if user.role == 0 %}
+        <br>
+        <a href="{% url 'create_order' %}" style="color:white; background-color: black; border: black;"
+           class="btn btn-primary">Створити замовлення</a>
+        <br>
+    {% endif %}
+    <br>
+    {% for order in orders %}
+        <div class="card" style="width: 25rem;">
+            <div class="card-body">
+
+                <h4 class="card-title">Номер замовлення: {{ order.id }}</h4>
+                <h6 class="card-subtitle mb-2 text-muted">Замовник: <a
+                        href="{{ order.user.get_absolute_url }}">{{ order.user.email }}</a></h6>
+                <p class="card-text">Книга: <a href="{{ order.book.get_absolute_url }}"
+                                               style="color:black;">{{ order.book.name }}</a></p>
+                <p class="card-text">Зроблено: {{ order.created_at|date:"Y-m-d H:i"}}</p>
+                <p class="card-text">Планований кінець: {{ order.plated_end_at|date:"Y-m-d H:i"}}</p>
+                <p class="card-text">Стан: {% if order.end_at %} Закритий {% else %} Відкритий {% endif %}</p>
+
+                {% if user.role == 1 %}
+                    {% if order.end_at %}
+                        <a href="{{ order.get_open_url }}" style="color:white; background-color: black; border: black;"
+                           class="btn btn-primary">Відкрити замовлення</a>
+                    {% else %}
+                        <a href="{{ order.get_close_url }}" style="color:white; background-color: black; border: black;"
+                           class="btn btn-primary">Закрити замовлення</a>
+                    {% endif %}
+                {% endif %}
+            </div>
+        </div>
+        <br>
+
+    {% endfor %}
+
+{% endblock %}

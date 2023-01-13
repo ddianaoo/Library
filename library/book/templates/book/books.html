@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+    {% if user.is_staff or user.role == 1 %}
+        <p><a href="{% url 'user_books' %}" style="color:white; background-color: black; border: black;"
+              class="btn btn-primary">Обрати книги за відвідувачем</a></p>
+    {% endif %}
+
+    <form action="{% url 'books' %}" method="post">
+        {% csrf_token %}
+{#        <h4>Обрати книги за назвою:</h4>#}
+{#        {% for book in all_books %}#}
+{#            <p><label for="{{ book.pk }}">{{ book.name }}:</label>#}
+{#                <input type="checkbox" value={{ book.pk }} id="{{ book.pk }}" name="book"></p>#}
+{#        {% endfor %}#}
+{##}
+{#        <h4>Обрати книги за автором:</h4>#}
+{#        {% for author in authors %}#}
+{#            <p><label for="{{ author.pk }}">>{{ author.name }} {{ author.surname }}:</label>#}
+{#                <input type="checkbox" value={{ author.pk }} id="{{ author.pk }}" name="author"></p>#}
+{#        {% endfor %}#}
+        {{ form.as_p }}
+
+        <button type="submit" value="submit" style="color:white; background-color: black; border: black;"
+                class="btn btn-primary">Обрати
+        </button>
+    </form>
+
+    <br>
+    {% if books %}
+        <h4>Результат фільтрації:</h4>
+        <ul>
+            {% for book in books %}
+                <li>
+                    <a href="{% url 'book' book.pk %}" style="color:black;">{{ book.name }}</a>
+                </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <h4>За таким автором книг не знайдено</h4>
+    {% endif %}
+
+{% endblock %}

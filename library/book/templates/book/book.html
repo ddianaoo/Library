@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<br>
+<div class="card" style="width: 25rem;">
+    <div class="card-body">
+        <h4 class="card-title">{{book.name}}</h4>
+        <h5 class="card-subtitle mb-2 text-muted">Опис: {{book.description}}</h5>
+        <p class="card-text">Кількість: {{ book.count }}</p>
+        <p class="card-text">Автори</p>
+        <ul>
+            {% for author in authors %}
+            <li><p>{{author.name}} {{author.surname}}</p></li>
+            {% endfor %}
+        </ul>
+        <p class="card-text">Рік видавництва: {{ book.year_publication }}</p>
+        <p class="card-text">Дата виходу: {{ book.relized_at }}</p>
+        {% if user.is_staff %}
+        <a href="{% url 'update_book' book.pk %}" style="color:white; background-color: black; border: black;" class="btn btn-primary">Оновити</a>
+        <a href="{% url 'delete_book' book.pk %}" style="color:white; background-color: black; border: black;" class="btn btn-primary">Видалити</a>
+        {% endif %}
+
+    </div>
+</div>
+
+{% endblock %}

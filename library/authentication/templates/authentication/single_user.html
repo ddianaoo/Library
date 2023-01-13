@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ title }}{% endblock %}
+
+{% block content %}
+
+<div class="card" style="width: 25rem;">
+    <div class="card-body">
+        <h4 class="card-title">{{ user.email }}</h4>
+        <h5 class="card-subtitle mb-2 text-muted">
+            {% if user.role == 0 %}
+            відвідувач
+            {% else %}
+            бібліотекар
+            {% endif %}
+        </h5>
+        {% if user.first_name %}
+        <p class="card-text">Ім'я: {{ user.first_name }}</p>
+        {% endif %}
+        {% if user.last_name %}
+        <p class="card-text">Прізвище: {{ user.last_name }}</p>
+        {% endif %}
+        {% if user.middle_name %}
+        <p class="card-text">По батькові: {{ user.middle_name }}</p>
+        {% endif %}
+        <h6 class="card-title">Аккаунт створений: {{ user.created_at|date:"Y-m-d H:i" }}</h6>
+    </div>
+</div>
+
+{% endblock %}

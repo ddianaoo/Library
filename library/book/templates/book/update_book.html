@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <div class="card" style="width: 25rem;">
+        <div class="card-body">
+            <form action="{% url 'update_book' pk %}" method="post">
+                {% csrf_token %}
+                {% for f in form %}
+                    <p><label for="{{ f.id_for_liable }}">{{ f.label }}:</label> {{ f }}</p>
+                    <div>{{ f.errors }}</div>
+                {% endfor %}
+                <button type="submit" value="submit" style="color:white; background-color: black; border: black;"
+                        class="btn btn-primary">Оновити книгу
+                </button>
+            </form>
+        </div>
+    </div>
+{% endblock %}
